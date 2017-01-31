@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import codecs
 from collections import defaultdict
 
 from qgis.PyQt import uic
@@ -65,7 +66,7 @@ class LessonSelector(BASE, WIDGET):
                 self.btnRemove.setEnabled(True)
                 self.btnRunLesson.setEnabled(True)
                 if os.path.exists(item.lesson.description):
-                    with open(item.lesson.description) as f:
+                    with codecs.open(item.lesson.description, encoding="utf-8") as f:
                         html = "".join(f.readlines())
                     self.webView.document().setMetaInformation(QTextDocument.DocumentUrl,
                                                                QUrl.fromUserInput(item.lesson.description).toString())
