@@ -104,8 +104,16 @@ class Lesson(object):
         shutil.rmtree(self.folder, True)
 
 def lessonFromYamlFile(f):
+    locale = qgisLocale()
+
     with codecs.open(f, encoding="utf-8") as stream:
         lessonDict = yaml.load(stream)
+
+    if locale in lessonDict["lesson"]:
+        lessonDict = lessonDict["lesson"][locale]
+    else:
+        lessonDict = lessonDict["lesson"]["en"]
+
     lesson = Lesson(lessonDict["name"], lessonDict["group"], lessonDict["description"],
                     os.path.dirname(f))
     for step in lessonDict["steps"]:
